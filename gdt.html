@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8"/>
+<script src="http://nbdd0121.github.io/jquery/jquery.js"></script>
+<script src="gdt.js"></script>
+<script>
+$(function(){
+	$('#gdt_forward').click(function(){
+		$('#gdt_result').val(GDT.compose({
+			base: parseInt($('#gdt_base').val(), 16),
+			limit: parseInt($('#gdt_limit').val(), 16),
+			bits:parseInt($('#gdt_bits').val()),
+			dpl:parseInt($('#gdt_dpl').val()),
+			present: $('#gdt_present').prop('checked'),
+			system: $('#gdt_system').prop('checked'),
+			code: $('#gdt_code').prop('checked'),
+			conforming: $('#gdt_conforming').prop('checked'),
+			write: $('#gdt_write').prop('checked'),
+			accessed: $('#gdt_accessed').prop('checked'),
+		}));
+	});
+	$('#gdt_backward').click(function(){
+		var result = GDT.decompose($('#gdt_result').val());
+		$('#gdt_base').val(result.base.toString(16));
+		$('#gdt_limit').val(result.limit.toString(16));
+		$('#gdt_bits').val(result.bits);
+		$('#gdt_dpl').val(result.dpl);
+		$('#gdt_present').prop('checked', result.present);
+		$('#gdt_system').prop('checked', result.system);
+		$('#gdt_code').prop('checked', result.code);
+		$('#gdt_conforming').prop('checked', result.conforming);
+		$('#gdt_write').prop('checked', result.write);
+		$('#gdt_accessed').prop('checked', result.accessed);
+	});
+});
+</script>
+<title>GDT Calculator</title>
+</head>
+<body>
+<table>
+<tr><td>Base: </td><td><input id="gdt_base" value="0"/></td></tr>
+<tr><td>Limit: </td><td><input id="gdt_limit" value="ffffffff"/></td></tr>
+<tr><td>Bits: </td><td><input id="gdt_bits" value="32"/></td></tr>
+<tr><td>DPL: </td><td><input id="gdt_dpl" value="0"/></td></tr>
+<tr><td>Present: </td><td><input id="gdt_present" type="checkbox" checked/></td></tr>
+<tr><td>System: </td><td><input id="gdt_system" type="checkbox"/></td></tr>
+<tr><td>Code: </td><td><input id="gdt_code" type="checkbox" checked/></td></tr>
+<tr><td>Conforming: </td><td><input id="gdt_conforming" type="checkbox"/></td></tr>
+<tr><td>Write: </td><td><input id="gdt_write" type="checkbox" checked/></td></tr>
+<tr><td>Accessed: </td><td><input id="gdt_accessed" type="checkbox"/></td></tr>
+<tr><td><button id="gdt_forward">Compose GDT</button></td><td><button id="gdt_backward">Decompose GDT</button></td></tr>
+<tr><td>GDT Entry: </td><td><input id="gdt_result" value=""/></td></tr>
+</table>
+<br/>
+</body>
+</html>
